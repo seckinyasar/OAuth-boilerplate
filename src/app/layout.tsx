@@ -8,6 +8,8 @@ import { auth } from "../../auth";
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
+  display: "swap",
+  fallback: ["system"],
 });
 
 export const metadata: Metadata = {

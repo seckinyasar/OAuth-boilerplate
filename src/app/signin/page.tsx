@@ -6,8 +6,6 @@ import React from "react";
 const SignedInSuccess = () => {
   const { data: session } = useSession();
 
-  console.log(session);
-
   return (
     <div className="flex items-center justify-center h-screen flex-1">
       <div className="flex flex-col">

@@ -1,7 +1,6 @@
+import SignIn from "@/components/signinButton";
 import { Button, Input } from "@/components/ui";
 import GithubIcon from "../../public/github_icon.svg";
-import GoogleIcon from "../../public/google_icon.svg";
-import SignIn from "@/components/signinButton";
 export default function Home() {
   return (
     <main className="flex h-screen items-center justify-center">
