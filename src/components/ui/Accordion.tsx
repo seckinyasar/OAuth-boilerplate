@@ -18,7 +18,7 @@
 //#endregion
 
 "use client";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/tw-utils";
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
 import { ChevronDownIcon } from "lucide-react";
 import * as React from "react";

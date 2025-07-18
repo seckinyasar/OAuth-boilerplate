@@ -1,6 +1,7 @@
-import SignIn from "@/components/signinButton";
 import { Button, Input } from "@/components/ui";
-import GithubIcon from "../../public/github_icon.svg";
+import GitHubIcon from "@/components/svgs/GithubSVG";
+import SignIn from "@/components/signinButton";
+
 export default function Home() {
   return (
     <main className="flex h-screen items-center justify-center">
@@ -11,11 +12,8 @@ export default function Home() {
               {/* //* Magic Link Icons */}
               <div className="flex gap-4">
                 <button className="flex items-center justify-center bg-[#222222] h-13 grow rounded-[10px] cursor-pointer">
-                  <GithubIcon className="size-7 " />
+                  <GitHubIcon className="size-7" />
                 </button>
-                {/* <button className="flex items-center justify-center bg-[#222222] h-13 grow rounded-[10px] cursor-pointer">
-                  <GoogleIcon className="size-7" />
-                </button> */}
                 <SignIn />
               </div>
               {/* //* OR */}

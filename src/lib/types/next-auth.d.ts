@@ -3,14 +3,13 @@ import "next-auth";
 declare module "next-auth" {
   interface Session {
     accessToken?: string;
-    refreshToken?: string;
+    error?: "RefreshTokenError";
   }
 }
 
 declare module "next-auth" {
   interface DefaultJWT {
     accessToken?: string;
-    refreshToken?: string;
   }
 }
 //* Augmenting the types

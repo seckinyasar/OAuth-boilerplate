@@ -18,7 +18,7 @@
 //#endregion
 
 "use client";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/tw-utils";
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
 import { CheckIcon } from "lucide-react";
 import * as React from "react";
@@ -45,7 +45,8 @@ function Checkbox({
         "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
         className
       )}
-      {...props}>
+      {...props}
+    >
       <CheckboxPrimitive.Indicator
         data-slot="checkbox-indicator"
         className={cn(
@@ -55,7 +56,8 @@ function Checkbox({
           "text-current transition-none",
           //? SVG (for CheckIcon)
           "size-full"
-        )}>
+        )}
+      >
         <CheckIcon className="size-3.5" />
       </CheckboxPrimitive.Indicator>
     </CheckboxPrimitive.Root>
@@ -75,10 +77,8 @@ function CheckboxWithText({
       <Checkbox id="terms" disabled={disabled} />
       <label
         htmlFor="terms"
-        className={cn(
-          "text-base",
-          disabled && "opacity-50 cursor-not-allowed"
-        )}>
+        className={cn("text-base", disabled && "opacity-50 cursor-not-allowed")}
+      >
         {text}
       </label>
     </div>

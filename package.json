@@ -3,15 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev",
+    "turbo": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postinstall": "prisma generate"
   },
   "prisma": {
+    "_comment": "prisma commands // use them in order // seed & studio exceptional",
     "initialize": "npx prisma init --db --output ../app/generated/prisma",
-    "migrate": "npx prisma migrate dev",
     "generate": "npx prisma generate",
+    "migrate": "npx prisma migrate dev",
     "seed": "npx prisma db seed",
     "studio": "npx prisma studio"
   },
