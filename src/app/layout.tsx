@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import { ThemeProvider } from "next-themes";
-import "./globals.css";
 import { SessionProvider } from "next-auth/react";
+import { ThemeProvider } from "next-themes";
+import { Inter } from "next/font/google";
 import { auth } from "../../auth";
+import "./globals.css";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -23,7 +23,6 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const session = await auth();
-  console.log(session);
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} antialiased `}>
