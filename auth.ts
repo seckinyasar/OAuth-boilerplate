@@ -36,58 +36,63 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           },
         });
 
-        //? if the access_token has expired, try to refresh it
-        if (
-          googleAccount?.expires_at &&
-          googleAccount.expires_at * 1000 < Date.now()
-        ) {
-          try {
-            const response = await fetch(
-              "https://oauth2.googleapis.com/token",
-              {
-                method: "POST",
-                body: new URLSearchParams({
-                  client_id: process.env.GOOGLE_CLIENT_ID!,
-                  client_secret: process.env.GOOGLE_CLIENT_SECRET!,
-                  grant_type: "refresh_token",
-                  refresh_token: googleAccount.refresh_token!,
-                }),
-              }
-            );
+        if (googleAccount?.expires_at) {
+          const currentTime = Math.floor(Date.now() / 1000);
+          //* Normal code
+          // if (googleAccount.expires_at < currentTime)
 
-            const tokensOrError = await response.json();
-            if (!response.ok) throw tokensOrError;
+          if (googleAccount.expires_at < currentTime + 10000) {
+            console.log("access_token has expired");
+            try {
+              const response = await fetch(
+                "https://oauth2.googleapis.com/token",
+                {
+                  method: "POST",
+                  body: new URLSearchParams({
+                    client_id: process.env.GOOGLE_CLIENT_ID!,
+                    client_secret: process.env.GOOGLE_CLIENT_SECRET!,
+                    grant_type: "refresh_token",
+                    refresh_token: googleAccount.refresh_token!,
+                  }),
+                }
+              );
 
-            const newTokens = tokensOrError as {
-              access_token: string;
-              expires_in: number;
-              refresh_token?: string;
-            };
+              const tokensOrError = await response.json();
+              if (!response.ok) throw tokensOrError;
 
-            await prisma.account.update({
-              data: {
-                access_token: newTokens.access_token,
-                expires_at:
-                  Math.floor(Date.now() / 1000) + newTokens.expires_in,
-                refresh_token:
-                  newTokens.refresh_token ?? googleAccount.refresh_token,
-              },
-              where: {
-                provider_providerAccountId: {
-                  provider: "google",
-                  providerAccountId: googleAccount.providerAccountId,
+              const newTokens = tokensOrError as {
+                access_token: string;
+                expires_in: number;
+                refresh_token?: string;
+              };
+
+              await prisma.account.update({
+                data: {
+                  access_token: newTokens.access_token,
+                  expires_at:
+                    Math.floor(Date.now() / 1000) + newTokens.expires_in,
+                  refresh_token:
+                    newTokens.refresh_token ?? googleAccount.refresh_token,
                 },
-              },
-            });
-          } catch (error) {
-            console.error("Error refreshing access token", error);
-            //? if it fails, return error so we can handle it in the client
-            session.error = "RefreshTokenError";
+                where: {
+                  provider_providerAccountId: {
+                    provider: "google",
+                    providerAccountId: googleAccount.providerAccountId,
+                  },
+                },
+              });
+              console.log("access_token refreshed");
+            } catch (error) {
+              console.error("Error refreshing access token", error);
+              //? if it fails, return error so we can handle it in the client
+              session.error = "RefreshTokenError";
+            }
           }
         }
       }
       return session;
     },
+
     async jwt({ token, user }) {
       // İlk girişte user bilgilerini token'a ekle
       if (user) {

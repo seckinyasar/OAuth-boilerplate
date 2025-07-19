@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-
+import { auth } from "../auth";
 import {
   AUTH_ROUTES,
   PUBLIC_ROUTES,
@@ -10,8 +10,11 @@ import {
   isUnauthenticatedOnly,
 } from "./middleware/routes-matcher";
 
-export default function middleware(req: NextRequest) {
+export default async function middleware(req: NextRequest) {
   const { nextUrl } = req;
+
+  const session = await auth();
+  console.log(session);
 
   if (isPublicRoute(nextUrl.pathname)) {
     console.log("public route");
