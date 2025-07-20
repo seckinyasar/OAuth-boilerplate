@@ -1,39 +1,39 @@
-import { Button, Input } from "@/components/ui";
-import GitHubIcon from "@/components/svgs/GithubSVG";
-import SignIn from "@/components/signinButton";
+import { SessionStatus } from "@/components/widgets/Session-status";
+import SignOut from "@/components/widgets/Sign-out-button";
+import { auth } from "@/middleware";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
-export default function Home() {
+const buttonStyles =
+  "h-10 w-full max-w-sm flex items-center justify-center border border-border rounded-md hover:bg-border/60 transition-all duration-300 gap-x-1 text-lg";
+
+export default async function Home() {
+  const session = await auth();
   return (
-    <main className="flex h-screen items-center justify-center">
-      <div className="w-full max-w-md h-fit">
-        <div className="h-fit rounded-[5px]">
-          <section className="flex flex-col p-2 px-8 ">
-            <section className="flex flex-col gap-6">
-              {/* //* Magic Link Icons */}
-              <div className="flex gap-4">
-                <button className="flex items-center justify-center bg-[#222222] h-13 grow rounded-[10px] cursor-pointer">
-                  <GitHubIcon className="size-7" />
-                </button>
-                <SignIn />
-              </div>
-              {/* //* OR */}
-              <section className="text-center text-muted-foreground">
-                or
-              </section>
-              <section className="flex flex-col gap-4">
-                <Input className="" type="email" />
-                <Button
-                  className="text-lg font-normal bg-white opacity-50 text-black hover:opacity-100 cursor-pointer"
-                  size="lg"
-                >
-                  Sign-in
-                </Button>
-              </section>
-            </section>
-            {/* //* Sign-in Button */}
-          </section>
-        </div>
+    <main className="flex flex-col  h-screen items-center justify-center">
+      <h1 className="text-4xl font-semibold mb-20">Home</h1>
+      <div className="flex flex-col w-full gap-y-2 items-center mb-10">
+        <Link href="/auth/signin" className={buttonStyles}>
+          Sign in
+          <ArrowRight className="size-4" />
+        </Link>
+        <SignOut />
       </div>
+      <section className="flex flex-col border border-border rounded-md w-full max-w-sm items-center ">
+        <h2 className="font-medium border-b border-border w-full text-center py-2 ">
+          Active Session
+        </h2>
+        <div className="flex flex-col justify-center py-2">
+          <div className="flex items-center gap-x-2">
+            <SessionStatus isActive={!!session?.user?.name} />
+            {session?.user?.name || "No name"}
+          </div>
+          <div className="flex items-center gap-x-2">
+            <SessionStatus isActive={!!session?.user?.email} />
+            {session?.user?.email || "No email"}
+          </div>
+        </div>
+      </section>
     </main>
   );
 }

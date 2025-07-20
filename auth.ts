@@ -39,11 +39,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         if (googleAccount?.expires_at) {
           const currentTime = Math.floor(Date.now() / 1000);
-          //* Normal code
-          // if (googleAccount.expires_at < currentTime)
 
-          if (googleAccount.expires_at < currentTime + 10000) {
-            console.log("access_token has expired");
+          if (googleAccount.expires_at < currentTime) {
+            //TODO buraya loglama servisi eklenebilir.
             try {
               const response = await fetch(
                 "https://oauth2.googleapis.com/token",
@@ -82,7 +80,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                   },
                 },
               });
-              console.log("access_token refreshed");
             } catch (error) {
               console.error("Error refreshing access token", error);
               //? if it fails, return error so we can handle it in the client
@@ -93,7 +90,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       }
       return session;
     },
-
     async jwt({ token, user }) {
       // İlk girişte user bilgilerini token'a ekle
       if (user) {

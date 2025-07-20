@@ -11,7 +11,6 @@ export const { auth } = NextAuth(authConfig);
 export default async function middleware(req: NextRequest) {
   const { nextUrl } = req;
   const session = await auth();
-  console.log(session);
 
   //? check for api routes.
   if (nextUrl.pathname.startsWith("/api")) {
@@ -27,14 +26,12 @@ export default async function middleware(req: NextRequest) {
 
   if (isAuthenticatedOnlyRoute(nextUrl.pathname)) {
     if (!session) {
-      console.log("no session, redirecting to signin");
-      return NextResponse.redirect(new URL("/signin", nextUrl));
+      return NextResponse.redirect(new URL("/auth/signin", nextUrl));
     }
   }
 
   if (isUnauthenticatedOnlyRoute(nextUrl.pathname)) {
     if (session) {
-      console.log("session, redirecting to authenticated");
       return NextResponse.redirect(new URL("/", nextUrl));
     }
   }
