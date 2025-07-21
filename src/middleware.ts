@@ -1,13 +1,11 @@
 import authConfig from "@/lib/auth.config";
 import NextAuth from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
-import {
-  isAuthenticatedOnlyRoute,
-  isUnauthenticatedOnlyRoute,
-} from "./middleware/routes-helpers";
+import { isAuthenticatedOnlyRoute } from "./middleware/routes-helpers";
 
 //? create auth instance for middleware without adapter.
 export const { auth } = NextAuth(authConfig);
+
 export default async function middleware(req: NextRequest) {
   const { nextUrl } = req;
   const session = await auth();
@@ -27,12 +25,6 @@ export default async function middleware(req: NextRequest) {
   if (isAuthenticatedOnlyRoute(nextUrl.pathname)) {
     if (!session) {
       return NextResponse.redirect(new URL("/auth/signin", nextUrl));
-    }
-  }
-
-  if (isUnauthenticatedOnlyRoute(nextUrl.pathname)) {
-    if (session) {
-      return NextResponse.redirect(new URL("/", nextUrl));
     }
   }
 }

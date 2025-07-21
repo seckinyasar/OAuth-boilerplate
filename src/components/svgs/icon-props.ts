@@ -3,4 +3,6 @@ export interface IconProps {
   height?: number | string;
   className?: string;
   color?: string;
+  strokeWidth?: number;
+  fill?: string;
 }

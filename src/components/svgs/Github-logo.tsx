@@ -1,4 +1,3 @@
-import React from "react";
 import { IconProps } from "./icon-props";
 
 export default function GithubSVG({
@@ -21,3 +20,4 @@ export default function GithubSVG({
     </svg>
   );
 }
+GithubSVG.displayName = "github-svg";

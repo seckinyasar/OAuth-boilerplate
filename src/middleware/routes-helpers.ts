@@ -2,7 +2,6 @@ import {
   AUTH_ROUTES,
   PUBLIC_ROUTES,
   AUTHENTICATED_ONLY_ROUTES,
-  UNAUTHENTICATED_ONLY_ROUTES,
 } from "./routes-matcher";
 
 //? This one is for apis and authentication routes.
@@ -14,7 +13,4 @@ export const isPublicRoute = (path: string) => {
 };
 export const isAuthenticatedOnlyRoute = (path: string) => {
   return AUTHENTICATED_ONLY_ROUTES.includes(path);
-};
-export const isUnauthenticatedOnlyRoute = (path: string) => {
-  return UNAUTHENTICATED_ONLY_ROUTES.includes(path);
 };

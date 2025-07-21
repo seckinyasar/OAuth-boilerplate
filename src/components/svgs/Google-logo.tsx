@@ -24,3 +24,4 @@ export default function GoogleSVG({
     </svg>
   );
 }
+GoogleSVG.displayName = "google-svg";
