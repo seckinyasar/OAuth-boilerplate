@@ -23,6 +23,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     strategy: "jwt",
   },
   trustHost: true,
+  pages: {
+    error: "/auth/error",
+  },
   callbacks: {
     async session({ session, user, token }) {
       // JWT strategy'de user undefined olabilir, token kullan
@@ -98,7 +101,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       return token;
     },
   },
+
   debug: process.env.NODE_ENV !== "production",
+  useSecureCookies: process.env.NODE_ENV === "production",
 });
 
 //? error handling --> session = await auth() ----> if session.error is "RefreshTokenError" --> signIn()   ----> force signIn

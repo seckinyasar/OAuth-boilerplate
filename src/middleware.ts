@@ -1,7 +1,6 @@
 import authConfig from "@/lib/auth.config";
 import NextAuth from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
-import { isAuthenticatedOnlyRoute } from "./middleware/routes-helpers";
 
 //? create auth instance for middleware without adapter.
 export const { auth } = NextAuth(authConfig);
@@ -9,6 +8,25 @@ export const { auth } = NextAuth(authConfig);
 export default async function middleware(req: NextRequest) {
   const { nextUrl } = req;
   const session = await auth();
+
+  //? redirect to https in production.
+  if (
+    process.env.NODE_ENV === "production" &&
+    !req.nextUrl.hostname.includes("localhost") &&
+    req.nextUrl.protocol !== "https:"
+  ) {
+    return NextResponse.redirect(
+      new URL(`https://${req.nextUrl.host}${req.nextUrl.pathname}`)
+    );
+  }
+
+  //? check for error in url.
+  const errorParam = nextUrl.searchParams.get("error");
+  if (errorParam && nextUrl.pathname !== "/auth/error") {
+    const errorUrl = new URL("/auth/error", nextUrl);
+    errorUrl.searchParams.set("error", errorParam);
+    return NextResponse.redirect(errorUrl);
+  }
 
   //? check for api routes.
   if (nextUrl.pathname.startsWith("/api")) {
@@ -20,12 +38,6 @@ export default async function middleware(req: NextRequest) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
     return NextResponse.next();
-  }
-
-  if (isAuthenticatedOnlyRoute(nextUrl.pathname)) {
-    if (!session) {
-      return NextResponse.redirect(new URL("/auth/signin", nextUrl));
-    }
   }
 }
 
@@ -39,6 +51,6 @@ export const config = {
      * - favicon.ico (favicon file)
      * - public folder
      */
-    "/((?!api/auth|_next/static|_next/image|favicon.ico|public).*)",
+    "/((?!_next/static|_next/image|favicon.ico|public).*)",
   ],
 };
