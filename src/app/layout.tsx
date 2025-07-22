@@ -2,6 +2,7 @@ import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "next-themes";
 import { Inter } from "next/font/google";
 import { auth } from "../../auth";
+import { SessionErrorHandler } from "@/components/widgets/Session-error-handler";
 import "./globals.css";
 
 const inter = Inter({
@@ -21,6 +22,7 @@ export default async function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} antialiased `}>
         <SessionProvider session={session}>
+          <SessionErrorHandler />
           <ThemeProvider defaultTheme="system" enableSystem>
             {children}
           </ThemeProvider>

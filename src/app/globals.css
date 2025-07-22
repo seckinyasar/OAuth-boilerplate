@@ -80,7 +80,8 @@
   --radius-3xl: 1.5rem;
   --radius-4xl: 2rem;
 }
-
+/*? Google Color  */
+/* #212226 */
 :root {
   --font-inter: "Inter", sans-serif;
   --background: oklch(1 0 none);

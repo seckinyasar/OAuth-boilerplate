@@ -34,5 +34,16 @@
     "liviuschera.noctis",
     "esbenp.prettier-vscode",
     "enkia.tokyo-night"
+  ],
+    "customTags": [
+    {
+      "tag": "Helper",
+      "color": "#fcf803",
+      "strikethrough": false,
+      "underline": false,
+      "backgroundColor": "transparent",
+      "bold": false,
+      "italic": false
+    },
   ]
 }
