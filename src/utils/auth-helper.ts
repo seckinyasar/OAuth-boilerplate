@@ -11,12 +11,7 @@ interface RefreshTokenError {
   error_description?: string;
 }
 
-//#region //Helper --->  getGoogleAccount
-/**
- * @param userId @type {string}
- * @returns Google account @type {Account | undefined}
- * @Note undefined is like non-existent in this return type.
- */
+//#region //Helper -->  getGoogleAccount
 export async function getGoogleAccount(
   userId: string
 ): Promise<Account | undefined> {
@@ -35,14 +30,45 @@ export async function getGoogleAccount(
 }
 //#endregion
 
-//#region //Helper --->  isTokenExpired
-export function isTokenExpired(expiresAt: number): boolean {
-  const currentTime = Math.floor(Date.now() / 1000);
-  return expiresAt < currentTime;
+//#region //Helper -->  checkIfRefreshTokenExists
+export function checkIfRefreshTokenExists(googleAccount: Account): boolean {
+  return googleAccount.refresh_token !== null;
 }
 //#endregion
 
-//#region //Helper --->  refreshGoogleAccessToken
+//#region //Helper -->  checkIfTokenExpired
+export function checkIfTokenExpired(googleAccount: Account): boolean {
+  const currentTime = Math.floor(Date.now() / 1000);
+  if (!googleAccount.expires_at) {
+    return true;
+  }
+  return googleAccount.expires_at < currentTime;
+}
+//#endregion
+
+//#region //Helper -->  handleSessionTokenRefresh
+export async function handleSessionTokenRefresh(
+  userId: string
+): Promise<RefreshTokenError | undefined> {
+  try {
+    const googleAccount = await getGoogleAccount(userId);
+
+    if (googleAccount && checkIfTokenExpired(googleAccount)) {
+      const result = await refreshGoogleAccessToken(googleAccount);
+
+      if (!result.success) return result.error as RefreshTokenError;
+    }
+    //TODO let's log this success
+    return undefined;
+  } catch (error) {
+    //TODO log this error
+    console.error("Error in handleSessionTokenRefresh:", error);
+    return error as RefreshTokenError;
+  }
+}
+//#endregion
+
+//#region //Helper -->  refreshGoogleAccessToken
 export async function refreshGoogleAccessToken(
   googleAccount: Account
 ): Promise<{
@@ -113,33 +139,6 @@ export async function refreshGoogleAccessToken(
   } catch (error) {
     console.error("Error refreshing access token:", error);
     return { success: false, error: error as RefreshTokenError };
-  }
-}
-//#endregion
-
-//#region //Helper --->  handleSessionTokenRefresh
-export async function handleSessionTokenRefresh(
-  userId: string
-): Promise<RefreshTokenError | undefined> {
-  try {
-    const googleAccount = await getGoogleAccount(userId);
-
-    if (!googleAccount?.expires_at) {
-      return undefined;
-    }
-
-    const isExpired = isTokenExpired(googleAccount.expires_at);
-    if (isExpired) {
-      const result = await refreshGoogleAccessToken(googleAccount);
-
-      if (!result.success) return result.error as RefreshTokenError;
-    }
-    //TODO let's log this success
-    return undefined;
-  } catch (error) {
-    //TODO log this error
-    console.error("Error in handleSessionTokenRefresh:", error);
-    return error as RefreshTokenError;
   }
 }
 //#endregion
