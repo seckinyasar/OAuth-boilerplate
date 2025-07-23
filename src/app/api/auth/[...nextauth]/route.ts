@@ -1,6 +1,6 @@
 import { handlers } from "../../../../../auth";
 
-export const { GET, POST } = handlers;
-
-// PrismaClient'ın Node.js runtime'da çalışması için
+//? to get prisma client to work in nodejs runtime
 export const runtime = "nodejs";
+
+export const { GET, POST } = handlers;

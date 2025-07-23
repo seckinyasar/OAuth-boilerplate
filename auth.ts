@@ -48,6 +48,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
       if (!checkIfRefreshTokenExists(googleAccount)) {
         const result = await handleSessionTokenRefresh(userId);
+        //? returns undefined if success.
         if (result) {
           session.error = "DefaultError";
         }
@@ -59,6 +60,31 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         token.id = user.id;
       }
       return token;
+    },
+    async signIn({ user, account }) {
+      if (user && account) {
+        try {
+          const updatedAccount = await prisma.account.update({
+            data: {
+              access_token: account.access_token,
+              expires_at: account.expires_at,
+              refresh_token: account.refresh_token,
+              scope: account.scope,
+              token_type: account.token_type,
+              id_token: account.id_token,
+            },
+            where: {
+              provider_providerAccountId: {
+                provider: account.provider,
+                providerAccountId: account.providerAccountId,
+              },
+            },
+          });
+        } catch (error) {
+          console.error("Error in signIn callback", error);
+        }
+      }
+      return true;
     },
   },
   debug: process.env.NODE_ENV !== "production",
