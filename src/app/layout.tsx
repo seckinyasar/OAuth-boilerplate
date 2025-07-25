@@ -1,8 +1,8 @@
+import { SessionErrorHandler } from "@/components/widgets/Session-error-handler";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "next-themes";
 import { Inter } from "next/font/google";
 import { auth } from "../../auth";
-import { SessionErrorHandler } from "@/components/widgets/Session-error-handler";
 import "./globals.css";
 
 const inter = Inter({

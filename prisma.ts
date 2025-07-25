@@ -1,6 +1,6 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { neonConfig } from "@neondatabase/serverless";
 import { PrismaNeon } from "@prisma/adapter-neon";
-import { neonConfig, NeonConfig } from "@neondatabase/serverless";
+import { PrismaClient } from "@prisma/client";
 
 import ws from "ws";
 neonConfig.webSocketConstructor = ws;
@@ -21,11 +21,3 @@ const prisma = global.prisma || new PrismaClient({ adapter });
 if (process.env.NODE_ENV !== "production") global.prisma = prisma;
 
 export { prisma };
-//#region //? Old Prisma Client
-// const globalPrisma = globalThis as unknown as { prisma: PrismaClient };
-
-// export const prisma = globalPrisma.prisma || new PrismaClient();
-
-// //? In Prisma, Next.js or Serverless environment, always singleton is used.
-// if (process.env.NODE_ENV !== "production") globalPrisma.prisma = prisma;
-//#endregion

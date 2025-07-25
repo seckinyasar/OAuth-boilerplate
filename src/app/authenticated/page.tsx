@@ -1,5 +1,4 @@
 import Image from "next/image";
-import React from "react";
 import { auth } from "../../../auth";
 const SignedInSuccess = async () => {
   const session = await auth();
