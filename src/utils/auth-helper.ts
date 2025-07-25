@@ -1,4 +1,5 @@
 import { Account } from "@prisma/client";
+import * as Sentry from "@sentry/nextjs";
 import { prisma } from "../../prisma";
 
 interface RefreshTokenResponse {
@@ -58,11 +59,13 @@ export async function handleSessionTokenRefresh(
 
       if (!result.success) return result.error as RefreshTokenError;
     }
-    //TODO let's log this success
     return undefined;
   } catch (error) {
-    //TODO log this error
-    console.error("Error in handleSessionTokenRefresh:", error);
+    Sentry.captureException(error, {
+      tags: {
+        error_type: "handleSessionTokenRefresh",
+      },
+    });
     return error as RefreshTokenError;
   }
 }
@@ -91,7 +94,11 @@ export async function refreshGoogleAccessToken(
 
     if (!response.ok) {
       const error = tokensOrError as RefreshTokenError;
-      console.error("Google token refresh failed:", error);
+      Sentry.captureException(error, {
+        tags: {
+          error_type: "refreshGoogleAccessToken",
+        },
+      });
 
       // Google API error response'larını handle et
       if (error.error === "invalid_grant") {
@@ -137,7 +144,11 @@ export async function refreshGoogleAccessToken(
 
     return { success: true, tokens: newTokens };
   } catch (error) {
-    console.error("Error refreshing access token:", error);
+    Sentry.captureException(error, {
+      tags: {
+        error_type: "refreshGoogleAccessToken",
+      },
+    });
     return { success: false, error: error as RefreshTokenError };
   }
 }

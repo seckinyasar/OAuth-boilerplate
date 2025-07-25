@@ -5,6 +5,7 @@ import {
   handleSessionTokenRefresh,
 } from "@/utils/auth-helper";
 import { PrismaAdapter } from "@auth/prisma-adapter";
+import * as Sentry from "@sentry/nextjs";
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import { prisma } from "./prisma";
@@ -81,7 +82,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             },
           });
         } catch (error) {
-          console.error("Error in signIn callback", error);
+          Sentry.captureException(error, {
+            tags: {
+              error_type: "signIn",
+            },
+          });
         }
       }
       return true;

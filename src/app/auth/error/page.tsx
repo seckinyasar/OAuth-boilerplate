@@ -1,15 +1,13 @@
 "use client";
+import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { errorMap, ErrorType } from "./types";
-import { ArrowUpRight } from "lucide-react";
 
 export default function AuthErrorPage() {
   const search = useSearchParams();
   const error = search.get("error") as ErrorType;
 
-  console.log("Received error:", error);
-  console.log("Error Type:", typeof error);
   return (
     <div className="flex h-screen w-full flex-col items-center justify-center">
       <Link
