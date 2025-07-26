@@ -57,8 +57,7 @@ SENTRY_AUTH_TOKEN="your-sentry-auth-token"
 
 ## 📁 Project Structure
 
-oauth_kickstarter/
-
+```
 ├── 📄 auth.ts # Auth.js configuration (Hybrid)
 
 ├── 📄 prisma.ts # Database client (Edge/Server)
@@ -92,6 +91,7 @@ oauth_kickstarter/
 │ ├── 📁 types/ # TypeScript definitions
 
 │ └── 📁 utils/ # Utility functions
+```
 
 ## Dependencies
 
