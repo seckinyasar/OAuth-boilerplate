@@ -57,41 +57,27 @@ SENTRY_AUTH_TOKEN="your-sentry-auth-token"
 
 ## 📁 Project Structure
 
-oauth_kickstarter/
+```shell
+├──  auth.ts                  # Auth.js configuration (Hybrid)
+├──  prisma.ts                # Prisma database client (Edge/Server)
+├──  next.config.ts           # Next.js configuration
+├──  sentry.config.ts         # Sentry (error tracking) configuration
 
-├── 📄 auth.ts # Auth.js configuration (Hybrid)
+├── prisma/
+│   ├── schema.prisma       # Database schema
+│   └── migrations/         # Database migration files
 
-├── 📄 prisma.ts # Database client (Edge/Server)
-
-├── 📄 next.config.ts # Next.js configuration
-
-├── 🛠 sentry.config.ts # Sentry configurations
-
-├── 🗂 prisma/
-
-│ ├── 📄 schema.prisma # Database schema
-
-│ └── 📁 migrations/ # Database migrations
-
-├── 📁 src/
-
-│ ├── 📁 app/ # Next.js App Router
-
-│ │ ├── 🛠 api/auth/ # Auth API routes (Server)
-
-│ │ ├── 🛠 auth/error/ # Error pages (Client)
-
-│ │ ├── 🛠 authenticated/ # Protected pages (Server)
-
-│ │ └── 🛠 page.tsx # Home page (Client)
-
-│ ├── 📁 lib/ # Configuration files
-
-│ ├── 📁 middleware/ # Route protection (Edge)
-
-│ ├── 📁 types/ # TypeScript definitions
-
-│ └── 📁 utils/ # Utility functions
+├── src/
+│   ├── app/                 # Next.js App Router
+│   │   ├──  api/auth/       # Auth API route files (Server)
+│   │   ├──  auth/error/     # Error pages (Client)
+│   │   ├──  authenticated/  # Protected routes (Server)
+│   │   └──  page.tsx        # Main page component (Client)
+│   ├── lib/                 # Common configuration and functions
+│   ├── middleware/          # Next.js route protection middleware
+│   ├── types/               # TypeScript type definitions
+│   └── utils/               # General utility functions
+```
 
 ## Dependencies
 
