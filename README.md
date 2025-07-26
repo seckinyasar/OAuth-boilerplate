@@ -1,4 +1,4 @@
-# OAuth Kickstarter - Next.js - Auth.js Authentication Boilerplate
+# Next.js - Auth.js - OAuth Authentication Boilerplate
 
 A production-ready Next.js authentication boilerplate with **Google OAuth**, **Neon Database**, **Auth.js**, and **Sentry** integration. Supports **Edge**, Server, and Client environments. [see version below](#Dependencies).
 
@@ -85,14 +85,6 @@ oauth_kickstarter/
 
 │ │ └── 🛠 page.tsx # Home page (Client)
 
-│ ├── 📁 components/ # Reusable components
-
-│ │ ├── 🛠 ui/ # Base UI components
-
-│ │ ├── 🛠 widgets/ # Feature components
-
-│ │ └── 🛠 svgs/ # SVG components
-
 │ ├── 📁 lib/ # Configuration files
 
 │ ├── 📁 middleware/ # Route protection (Edge)
@@ -100,8 +92,6 @@ oauth_kickstarter/
 │ ├── 📁 types/ # TypeScript definitions
 
 │ └── 📁 utils/ # Utility functions
-
-└── 📁 public/ # Static assets
 
 ## Dependencies
 
