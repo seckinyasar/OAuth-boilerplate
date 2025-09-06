@@ -4,7 +4,6 @@ import GoogleSVG from "@/components/svgs/Google-logo";
 import MetaLogo from "@/components/svgs/Meta-logo";
 import { X } from "lucide-react";
 import { signIn } from "next-auth/react";
-import { useEffect } from "react";
 import { createPortal } from "react-dom";
 
 const buttonStyles =
@@ -16,8 +15,6 @@ interface SignInModalProps {
 }
 
 export default function SignInModal({ isOpen, onClose }: SignInModalProps) {
-  useEffect(() => {}, [isOpen]);
-
   const handleClose = () => {
     onClose?.();
   };
